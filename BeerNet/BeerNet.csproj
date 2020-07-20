@@ -15,5 +15,6 @@
 
   <ItemGroup>
     <Folder Include="Models\Enums\" />
+    <Folder Include="Managers\" />
   </ItemGroup>
 </Project>
