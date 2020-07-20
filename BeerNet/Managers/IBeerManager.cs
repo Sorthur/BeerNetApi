@@ -7,7 +7,7 @@ namespace BeerNet.Managers
     public interface IBeerManager
     {
         List<Beer> GetBeers();
-        List<Beer> GetBeers(string phraseInName);
+        List<Beer> GetBeers(string namePhrase);
         Beer GetBeer(int id);
         Beer GetBeer(string name);
         Beer GetBeerWithHigherExtract(float givenExtract);
