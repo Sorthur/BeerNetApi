@@ -13,5 +13,6 @@ namespace BeerNet.Managers
         Beer GetBeerWithHigherExtract(float givenExtract);
         Beer GetBeerWithLowerExtract(float givenExtract);
         Beer GetBeerWithExtractWithingRange(float moreThan, float lessThan);
+        List<Beer> GetBeersWithBestAverageRating(int numberOfBeers, int minNumberOfRatings);
     }
 }
