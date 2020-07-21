@@ -8,8 +8,8 @@ namespace BeerNet.Managers
     {
         List<BeerNetUser> GetBeerNetUsers();
         List<BeerNetUser> GetBeerNetUsers(string loginPhrase);
-        BeerNetUser GetBeerNetUser(int id);
-        BeerNetUser GetBeerNetUser(string mail);
+        BeerNetUser GetBeerNetUser(string id);
+        BeerNetUser GetBeerNetUserByMail(string mail);
         BeerNetUser GetBeerNetUserByLogin(string login);
     }
 }
