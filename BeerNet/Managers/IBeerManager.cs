@@ -10,9 +10,9 @@ namespace BeerNet.Managers
         List<Beer> GetBeers(string namePhrase);
         Beer GetBeer(int id);
         Beer GetBeer(string name);
-        Beer GetBeerWithHigherExtract(float givenExtract);
-        Beer GetBeerWithLowerExtract(float givenExtract);
-        Beer GetBeerWithExtractWithingRange(float moreThan, float lessThan);
+        List<Beer> GetBeersWithHigherExtract(float givenExtract);
+        List<Beer> GetBeersWithLowerExtract(float givenExtract);
+        List<Beer> GetBeersWithExtractWithingRange(float moreThan, float lessThan);
         List<Beer> GetBeersWithBestAverageRating(int numberOfBeers, int minNumberOfRatings);
     }
 }
