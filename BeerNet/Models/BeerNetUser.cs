@@ -15,6 +15,9 @@ namespace BeerNet.Models
         public Country Country { get; set; }
         public List<BeerRate> BeerRates { get; set; }
 
-        public BeerNetUser() { }
+        public BeerNetUser()
+        {
+            BeerRates = new List<BeerRate>();
+        }
     }
 }

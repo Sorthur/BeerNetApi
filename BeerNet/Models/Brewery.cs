@@ -12,6 +12,9 @@ namespace BeerNet.Models
         public Country Country { get; set; }
         public List<Beer> Beers { get; set; }
 
-        public Brewery() { }
+        public Brewery()
+        {
+            Beers = new List<Beer>();
+        }
     }
 }

@@ -16,6 +16,9 @@ namespace BeerNet.Models
         public List<BeerRate> BeerRates { get; set; }
         public float AverageRating { get; set; }
 
-        public Beer() { }
+        public Beer()
+        {
+            BeerRates = new List<BeerRate>();
+        }
     }
 }
