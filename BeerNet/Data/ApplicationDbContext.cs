@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeerNet.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<BeerNetUser>
     {
         public DbSet<BeerNetUser> BeerNetUsers{ get; set; }
         public DbSet<Beer> Beers { get; set; }
