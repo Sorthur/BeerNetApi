@@ -15,6 +15,7 @@ namespace BeerNet.Models
         public string Description { get; set; }
         public List<BeerRate> BeerRates { get; set; }
         public float AverageRating { get; set; }
+        public byte[] Image { get; set; }
 
         public Beer()
         {
