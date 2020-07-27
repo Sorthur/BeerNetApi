@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BeerNet.Models.Enums;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BeerNet.Models
 {
@@ -20,6 +22,21 @@ namespace BeerNet.Models
         public Beer()
         {
             BeerRates = new List<BeerRate>();
+        }
+
+        public void ImageToBytes(FileStream image)
+        {
+            using (var ms = new MemoryStream())
+            {
+                image.CopyTo(ms);
+                Image = ms.ToArray();
+            }
+        }
+
+        public string GetImage()
+        {
+            string base64Data = Convert.ToBase64String(Image);
+            return string.Format("data:image/jpg;base64,{0}", base64Data);
         }
     }
 }
