@@ -4,6 +4,7 @@ using System.Linq;
 using BeerNet.Data;
 using BeerNet.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BeerNet.Managers
 {
@@ -18,6 +19,7 @@ namespace BeerNet.Managers
         public Beer GetBeer(int id)
         {
             return _dbContext.Beers
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                 .FirstOrDefault(b => b.Id == id);
         }
@@ -76,6 +78,15 @@ namespace BeerNet.Managers
                 .Where(b => b.Extract <= givenExtract)
                 .Include(b => b.BeerRates)
                 .ToList();
+        }
+        public void AddBeerRating(Beer beer, BeerRate beerRate)
+        {
+            double newAvgRating = beer.AverageRating * beer.BeerRates.Count();
+            newAvgRating += beerRate.Rate;
+            beer.BeerRates.Add(beerRate);
+            newAvgRating /= beer.BeerRates.Count();
+            beer.AverageRating = (float)newAvgRating;
+            _dbContext.SaveChanges();
         }
     }
 }
