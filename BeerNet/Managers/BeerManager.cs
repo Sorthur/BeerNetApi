@@ -21,6 +21,7 @@ namespace BeerNet.Managers
             return _dbContext.Beers
                 .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .FirstOrDefault(b => b.Id == id);
         }
 
@@ -28,6 +29,7 @@ namespace BeerNet.Managers
         {
             return _dbContext.Beers
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .FirstOrDefault(b => b.Name == name);
         }
 
@@ -35,6 +37,7 @@ namespace BeerNet.Managers
         {
             return _dbContext.Beers
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .ToList();
         }
 
@@ -43,6 +46,7 @@ namespace BeerNet.Managers
             return _dbContext.Beers.Where(b => b.Name.ToLower()
                 .Contains(namePhrase.ToLower()))
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .ToList();
         }
 
@@ -53,6 +57,7 @@ namespace BeerNet.Managers
                 .OrderByDescending(b => b.AverageRating)
                 .Take(5)
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .ToList();
         }
 
@@ -61,6 +66,7 @@ namespace BeerNet.Managers
             return _dbContext.Beers
                 .Where(b => b.Extract >= moreThan && b.Extract <= lessThan)
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .ToList();
         }
 
@@ -69,6 +75,7 @@ namespace BeerNet.Managers
             return _dbContext.Beers
                 .Where(b => b.Extract >= givenExtract)
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .ToList();
         }
 
@@ -77,6 +84,7 @@ namespace BeerNet.Managers
             return _dbContext.Beers
                 .Where(b => b.Extract <= givenExtract)
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
                 .ToList();
         }
         public void AddBeerRating(Beer beer, BeerRate beerRate)
