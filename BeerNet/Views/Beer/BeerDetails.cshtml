@@ -1,0 +1,80 @@
+﻿@model Beer
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-2">
+        <center><img src="@Model.GetImage()" width="120" /></center>
+    </div>
+
+    <div class="col-7">
+        <h1>@Model.Name</h1>
+
+        <div class="row">
+            <div class="col-2">
+                <center><h6>Average rating</h6></center>
+                <center><h2>@Model.AverageRating</h2></center>
+            </div>
+
+            <div class="col-10 pl-4">
+                <div class="row">Style: @Model.Style.ToString().Replace('_', ' ')</div>
+                <div class="row">Abv: @Model.Abv</div>
+                <div class="row">Extract: @Model.Extract</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                @Model.Description
+            </div>
+        </div>
+
+        <hr style="height:1px;border:none;color:black;background-color:black;" />
+
+
+        @foreach (var rate in Model.BeerRates)
+        {
+            <div class="mt-4 font-weight-light">
+                <h5>@rate.Rate</h5>
+                <a href="/user/@rate.User.UserName">
+                    @rate.User.UserName
+                </a>
+                <br />
+                @rate.Description
+                <hr />
+            </div>
+        }
+    </div>
+
+    <div class="col-3 text-center">
+        <form asp-action="ToDo_AddRating">
+            <div class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Rate this beer:</label>
+
+                <div class="slidecontainer">
+                    <input type="range" min="0" max="5" value="2.5" step="0.1" class="slider" id="ratingRange" name="ratingRange">
+                    <p>Rate: <span id="chosenRate"></span></p>
+                </div>
+
+                <textarea class="form-control" placeholder="Comment" id="BeerRateDescription" name="BeerRateDescription" rows="7" required></textarea>
+                <input type="submit" value="Rate" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var slider = document.getElementById("ratingRange");
+    var output = document.getElementById("chosenRate");
+    output.innerHTML = slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function ()
+    {
+        output.innerHTML = this.value;
+    }
+</script>
+
+
+
