@@ -28,6 +28,7 @@ namespace BeerNet.Managers
         public Beer GetBeer(string name)
         {
             return _dbContext.Beers
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                     .ThenInclude(b => b.User)
                 .FirstOrDefault(b => b.Name == name);
@@ -36,6 +37,7 @@ namespace BeerNet.Managers
         public List<Beer> GetBeers()
         {
             return _dbContext.Beers
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                     .ThenInclude(b => b.User)
                 .ToList();
@@ -45,6 +47,7 @@ namespace BeerNet.Managers
         {
             return _dbContext.Beers.Where(b => b.Name.ToLower()
                 .Contains(namePhrase.ToLower()))
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                     .ThenInclude(b => b.User)
                 .ToList();
@@ -56,6 +59,7 @@ namespace BeerNet.Managers
                 .Where(b => b.BeerRates.Count() >= minNumberOfRatings)
                 .OrderByDescending(b => b.AverageRating)
                 .Take(5)
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                     .ThenInclude(b => b.User)
                 .ToList();
@@ -65,6 +69,7 @@ namespace BeerNet.Managers
         {
             return _dbContext.Beers
                 .Where(b => b.Extract >= moreThan && b.Extract <= lessThan)
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                     .ThenInclude(b => b.User)
                 .ToList();
@@ -74,6 +79,7 @@ namespace BeerNet.Managers
         {
             return _dbContext.Beers
                 .Where(b => b.Extract >= givenExtract)
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                     .ThenInclude(b => b.User)
                 .ToList();
@@ -83,6 +89,7 @@ namespace BeerNet.Managers
         {
             return _dbContext.Beers
                 .Where(b => b.Extract <= givenExtract)
+                .Include(b => b.Brewery)
                 .Include(b => b.BeerRates)
                     .ThenInclude(b => b.User)
                 .ToList();
