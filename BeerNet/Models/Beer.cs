@@ -24,6 +24,11 @@ namespace BeerNet.Models
             BeerRates = new List<BeerRate>();
         }
 
+        public string GetStyleName()
+        {
+            return Style.ToString().Replace("_", " ");
+        }
+
         public void ImageToBytes(FileStream image)
         {
             using (var ms = new MemoryStream())
@@ -35,6 +40,12 @@ namespace BeerNet.Models
 
         public string GetImage()
         {
+            if (Image == null || Image.Length == 0)
+            {
+                // Transparent pixel
+                string base64Data2 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+                return string.Format("data:image/jpg;base64,{0}", base64Data2);
+            }
             string base64Data = Convert.ToBase64String(Image);
             return string.Format("data:image/jpg;base64,{0}", base64Data);
         }

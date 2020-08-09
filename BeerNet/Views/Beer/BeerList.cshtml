@@ -1,0 +1,32 @@
+﻿@model IList<Beer>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+Witam, tu moje piwunia:
+@foreach (var beer in Model)
+{
+    <div class="list-group">
+        <a asp-action="BeerDetails" asp-route-id="@beer.Id" class="list-group-item list-group-item-action">
+            <div class="row">
+                <div class="col-1 text-center">
+                    <img src="@beer.GetImage()" style="max-height: 5em; max-width: 5em" />
+                </div>
+                <div class="col-11 small">
+                    <div class="row">
+                        <h5>@beer.Name</h5>
+                    </div>
+                    <div class="row">
+                        @beer.GetStyleName()
+                    </div>
+                    <div class="row">
+                        @beer.Brewery.Name (ToDo_LinkToBrewery)
+                    </div>
+                    <div class="row">
+                        Rating: @beer.AverageRating (@beer.BeerRates.Count())
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+}

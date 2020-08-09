@@ -23,11 +23,11 @@ namespace BeerNet.Controllers
             _beerManager = beerManager;
         }
 
-        [HttpGet()]
-        public IActionResult ToDo_AllBeers()
+        [HttpGet]
+        public IActionResult AllBeers()
         {
             var beers = _beerManager.GetBeers();
-            return View();
+            return View("BeerList", beers);
         }
 
         [HttpGet("{id}")]
