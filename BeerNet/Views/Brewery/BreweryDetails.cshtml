@@ -1,0 +1,52 @@
+﻿@model Brewery
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-2">
+        <center><img src="@Model.GetImage()" width="120" /></center>
+    </div>
+
+    <div class="col-7">
+        <h1>@Model.Name</h1>
+
+        Country: @Model.Country <br />
+        @Model.Description
+
+        <hr style="height:1px;border:none;color:black;background-color:black;" />
+
+        <h4>@Model.Beers.Count beers brewed in @Model.Name</h4>
+        @foreach (var beer in Model.Beers)
+        {
+            <div class="mt-4 font-weight-light">
+
+                <div class="list-group">
+                    <a asp-controller="Beer" asp-action="BeerDetails" asp-route-id="@beer.Id" class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 text-center">
+                                <img src="@beer.GetImage()" style="max-height: 5em; max-width: 5em" />
+                            </div>
+                            <div class="col-11 small">
+                                <div class="row">
+                                    <h5>@beer.Name</h5>
+                                </div>
+                                <div class="row">
+                                    @beer.GetStyleName()
+                                </div>
+                                <div class="row">
+                                    Rating: @beer.AverageRating (@beer.BeerRates.Count())
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        }
+    </div>
+
+    <div class="col-3 text-center">
+        -
+    </div>
+</div>

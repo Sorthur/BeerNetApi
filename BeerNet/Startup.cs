@@ -38,6 +38,7 @@ namespace BeerNet
             services.AddRazorPages();
 
             services.AddScoped<IBeerManager, BeerManager>();
+            services.AddScoped<IBreweryManager, BreweryManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
