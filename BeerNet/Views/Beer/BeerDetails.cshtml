@@ -9,6 +9,9 @@
     </div>
 
     <div class="col-7">
+        <a asp-controller="Brewery" asp-action="BreweryDetails" asp-route-id="@Model.Brewery.Id" class="testXD">
+            @Model.Brewery.Name
+        </a>
         <h1>@Model.Name</h1>
 
         <div class="row">

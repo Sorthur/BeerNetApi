@@ -1,0 +1,20 @@
+﻿a:link.testXD {
+    font-size: larger;
+    text-decoration: underline;
+    color: black;
+}
+
+a:visited.testXD {
+    text-decoration: underline;
+    color: black;
+}
+
+a:hover.testXD {
+    text-decoration: underline;
+    color: dodgerblue;
+}
+
+a:active.testXD {
+    text-decoration: underline;
+    color: black;
+}
