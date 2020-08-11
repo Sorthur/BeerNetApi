@@ -1,0 +1,28 @@
+﻿@model IList<Brewery>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@foreach (var brewery in Model)
+{
+    <div class="list-group">
+        <a asp-action="BreweryDetails" asp-route-id="@brewery.Id" class="list-group-item list-group-item-action">
+            <div class="row">
+                <div class="col-1 text-center">
+                    <img src="@brewery.GetImage()" style="max-height: 5em; max-width: 5em" />
+                </div>
+                <div class="col-11 small pl-4">
+                    <div class="row">
+                        <h5>@brewery.Name</h5>
+                    </div>
+                    <div class="row">
+                        @brewery.Country
+                    </div>
+                    <div class="row">
+                        Beer brewed: @brewery.Beers.Count()
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+}

@@ -21,6 +21,13 @@ namespace BeerNet.Controllers
             _breweryManager = breweryManager;
         }
 
+        [HttpGet]
+        public IActionResult AllBreweries()
+        {
+            var breweries = _breweryManager.GetBreweries();
+            return View("BreweryList", breweries);
+        }
+
         [HttpGet("{id}")]
         public IActionResult BreweryDetails(int id)
         {
