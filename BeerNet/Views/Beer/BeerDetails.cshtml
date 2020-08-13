@@ -1,4 +1,6 @@
-﻿@model Beer
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<BeerNetUser> SignInManager
+@model Beer
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -50,20 +52,27 @@
     </div>
 
     <div class="col-3 text-center">
-        <form asp-action="AddRating" asp-route-id="@Model.Id">
-            <div class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label">Rate this beer:</label>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <form asp-action="AddRating" asp-route-id="@Model.Id">
+                <div class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Rate this beer:</label>
 
-                <div class="slidecontainer">
-                    <input type="range" min="0" max="5" value="2.5" step="0.1" class="slider" id="ratingRange" name="ratingRange">
-                    <p>Rate: <span id="chosenRate"></span></p>
+                    <div class="slidecontainer">
+                        <input type="range" min="0" max="5" value="2.5" step="0.1" class="slider" id="ratingRange" name="ratingRange">
+                        <p>Rate: <span id="chosenRate"></span></p>
+                    </div>
+
+                    <textarea class="form-control" placeholder="Comment" id="BeerRateDescription" name="BeerRateDescription" rows="7" required></textarea>
+                    <input type="submit" value="Rate" class="btn btn-primary" />
                 </div>
-
-                <textarea class="form-control" placeholder="Comment" id="BeerRateDescription" name="BeerRateDescription" rows="7" required></textarea>
-                <input type="submit" value="Rate" class="btn btn-primary" />
-            </div>
-        </form>
+            </form>
+        }
+        else
+        {
+            @:If you would like to rate this beer login first
+        }
     </div>
 </div>
 
