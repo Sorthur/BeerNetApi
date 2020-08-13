@@ -22,7 +22,7 @@
                         @beer.Brewery.Name (ToDo_LinkToBrewery)
                     </div>
                     <div class="row">
-                        Rating: @beer.AverageRating (@beer.BeerRates.Count())
+                        Rating: @Math.Round(beer.AverageRating, 2) (@beer.BeerRates.Count())
                     </div>
                 </div>
             </div>
