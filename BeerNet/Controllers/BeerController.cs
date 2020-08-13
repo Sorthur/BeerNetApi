@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BeerNet.Data;
 using BeerNet.Managers;
 using BeerNet.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,13 +54,30 @@ namespace BeerNet.Controllers
             return View(beer);
         }
 
-        public IActionResult ToDo_AddRating(string BeerRateDescription, string ratingRange)
+        [Authorize]
+        [HttpPost("{id}")]
+        public IActionResult AddRating(int id, string beerRateDescription, string ratingRange)
         {
             ratingRange = ratingRange.Replace('.', ',');
             float rate = float.Parse(ratingRange);
 
-            BeerRateDescription.ToLower();
-            return RedirectToAction("BeerDetails", new { id = 1 });
+            var beer = _beerManager.GetBeer(id);
+            if (beer == null)
+            {
+                return View("BeerList");
+            }
+
+            var beerRate = new BeerRate()
+            {
+                Beer = beer,
+                Description = beerRateDescription,
+                Rate = rate,
+                User = _userManager.GetUserAsync(HttpContext.User).Result
+            };
+
+            _beerManager.AddBeerRating(beer, beerRate);
+
+            return RedirectToAction("BeerDetails", new { id = id });
         }
     }
 }
