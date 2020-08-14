@@ -104,13 +104,20 @@ namespace BeerNet.Managers
             _dbContext.SaveChanges();
         }
 
-        public void EditBeerRating(int beerId, string userMail, string beerRateDescription, float rate)
+        public void EditBeerRating(int beerId, string userMail, string beerRateDescription, float newRate)
         {
             var beer = GetBeer(beerId);
-
             var beerRate = beer.BeerRates.FirstOrDefault(r => r.User.Email == userMail);
-            beerRate.Rate = rate;
+
+            float newAvgRating = beer.AverageRating * beer.BeerRates.Count();
+            newAvgRating -= beerRate.Rate;
+            newAvgRating += newRate;
+            newAvgRating /= beer.BeerRates.Count();
+            beer.AverageRating = newAvgRating;
+
+            beerRate.Rate = newRate;
             beerRate.Description = beerRateDescription;
+
             _dbContext.SaveChanges();
         }
     }
