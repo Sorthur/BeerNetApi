@@ -79,5 +79,17 @@ namespace BeerNet.Controllers
 
             return RedirectToAction("BeerDetails", new { id = id });
         }
+
+        [Authorize]
+        [HttpPost("{beerId}")]
+        public IActionResult EditRating(int beerId, string beerRateDescription, string ratingRange)
+        {
+            ratingRange = ratingRange.Replace('.', ',');
+            float rate = float.Parse(ratingRange);
+
+            _beerManager.EditBeerRating(beerId, _userManager.GetUserAsync(User).Result.Email, beerRateDescription, rate);
+
+            return RedirectToAction("BeerDetails", new { id = beerId });
+        }
     }
 }
