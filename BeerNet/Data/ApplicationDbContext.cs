@@ -9,13 +9,20 @@ namespace BeerNet.Data
 {
     public class ApplicationDbContext : IdentityDbContext<BeerNetUser>
     {
-        public DbSet<BeerNetUser> BeerNetUsers{ get; set; }
+        public DbSet<BeerNetUser> BeerNetUsers { get; set; }
         public DbSet<Beer> Beers { get; set; }
         public DbSet<Brewery> Breweries { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<BeerNetUser>()
+                .HasIndex(b => b.Login)
+                .IsUnique();
         }
     }
 }
