@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using BeerNet.Validators;
 
 namespace BeerNet.Areas.Identity.Pages.Account
 {
@@ -22,7 +23,7 @@ namespace BeerNet.Areas.Identity.Pages.Account
         private readonly SignInManager<BeerNetUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<BeerNetUser> signInManager, 
+        public LoginModel(SignInManager<BeerNetUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<BeerNetUser> userManager)
         {
@@ -44,8 +45,9 @@ namespace BeerNet.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            [LoginOrEmailExistenceValidator(ErrorMessage = "User not found")]
+            [Display(Name = "Login")]
+            public string LoginOrEmail { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
@@ -80,7 +82,13 @@ namespace BeerNet.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                var user = _userManager.Users.Where(u =>
+                    u.Login == Input.LoginOrEmail ||
+                    u.Email == Input.LoginOrEmail)
+                    .FirstOrDefault();
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
