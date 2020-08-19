@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BeerNet.Validators;
 
 namespace BeerNet.Areas.Identity.Pages.Account
 {
@@ -47,6 +50,11 @@ namespace BeerNet.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            [LoginExistenceValidator(ErrorMessage = "Login already taken")]
+            [Display(Name = "Login")]
+            public string Login { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -75,8 +83,7 @@ namespace BeerNet.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new BeerNetUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var user = new BeerNetUser { Login = Input.Login, UserName = Input.Email, Email = Input.Email };                var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -107,7 +114,6 @@ namespace BeerNet.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }
