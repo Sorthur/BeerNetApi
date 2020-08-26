@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeerNet.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("[controller]/")]
     public class UserController : Controller
     {
         private readonly IBeerNetUserManager _beerNetUserManager;
