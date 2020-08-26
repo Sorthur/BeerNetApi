@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<BeerNet.Models.BeerNetUser> SignInManager
+@model BeerNet.Models.BeerNetUser
+@{
+    ViewData["Title"] = $"{Model.Login}'s account";
+}
+
+
+<div class="row">
+    <div class="col-9">
+        <div class="row pl-4">
+            <h2>@Model.Login</h2>
+        </div>
+        <div class="row pl-4">
+            <h4>@Model.Name @Model.Surname</h4>
+        </div>
+        <div class="row pl-4 pt-4">
+            <table class="table border-bottom">
+                <tr>
+                    <th>
+                        Rated Beers:
+                    </th>
+                    <th>
+                        <div class="text-right">
+                            <input type="text" placeholder="Search ratings...(ToDo)" />
+                        </div>
+                    </th>
+                </tr>
+            </table>
+            <table class="table">
+                <tr class="table-borderless">
+                    <th>
+                        Beer
+                    </th>
+                    <th>
+                        Style
+                    </th>
+                    <th>
+                        Score
+                    </th>
+                    <th>
+                        Avg
+                    </th>
+                </tr>
+                @foreach (var beerRate in Model.BeerRates)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Beer" asp-action="BeerDetails" asp-route-id="@beerRate.Beer.Id" class="dark-no-decorations">
+                                @beerRate.Beer.Name
+                            </a>
+                            <a asp-controller="Brewery" asp-action="BreweryDetails" asp-route-id="@beerRate.Beer.Brewery.Id" class="small dark-no-decorations">
+                                @beerRate.Beer.Brewery.Name
+                            </a>
+                        </td>
+                        <td>
+                            @beerRate.Beer.GetStyleName()
+                        </td>
+                        <td>
+                            @beerRate.Rate
+                        </td>
+                        <td>
+                            @Math.Round(beerRate.Beer.AverageRating, 2)
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+
+    <div class="col-3">
+        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Manage/Index">Manage</a>
+    </div>
+
+</div>
