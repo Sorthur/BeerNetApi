@@ -18,7 +18,9 @@ namespace BeerNet.Managers
         public BeerNetUser GetBeerNetUser(string id)
         {
             return _dbContext.BeerNetUsers
-                .Include(b=>b.BeerRates)
+                .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.Beer)
+                        .ThenInclude(b => b.Brewery)
                 .FirstOrDefault(b => b.Id == id);
         }
 
@@ -26,6 +28,8 @@ namespace BeerNet.Managers
         {
             return _dbContext.BeerNetUsers
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.Beer)
+                        .ThenInclude(b => b.Brewery)
                 .FirstOrDefault(b => b.Email == mail);
         }
 
@@ -33,6 +37,8 @@ namespace BeerNet.Managers
         {
             return _dbContext.BeerNetUsers
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.Beer)
+                        .ThenInclude(b => b.Brewery)
                 .FirstOrDefault(b => b.Login == login);
         }
 
@@ -40,6 +46,8 @@ namespace BeerNet.Managers
         {
             return _dbContext.BeerNetUsers
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.Beer)
+                        .ThenInclude(b => b.Brewery)
                 .ToList();
         }
 
@@ -48,6 +56,8 @@ namespace BeerNet.Managers
             return _dbContext.BeerNetUsers
                 .Where(b => b.Login.ToLower().Contains(loginPhrase.ToLower()))
                 .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.Beer)
+                        .ThenInclude(b => b.Brewery)
                 .ToList();
         }
     }
