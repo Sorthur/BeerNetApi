@@ -22,8 +22,11 @@ namespace BeerNet.Controllers
         public IActionResult Index(string login)
         {
             var user = _beerNetUserManager.GetBeerNetUserByLogin(login);
+            if (user == null)
+            {
+                return NotFound();
+            }
             return View(user);
-            // ToDo (user == null)
         }
     }
 }
