@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BeerNet.Models;
+using BeerNet.Models.Enums;
 
 namespace BeerNet.Managers
 {
@@ -16,5 +17,6 @@ namespace BeerNet.Managers
         List<Beer> GetBeersWithBestAverageRating(int numberOfBeers, int minNumberOfRatings);
         void AddBeerRating(Beer beer, BeerRate beerRate);
         void EditBeerRating(int beerId, string userMail, string beerRateDescription, float rate);
+        List<Beer> AdvancedBeerSearch(string beerName, string breweryName, Country? country, BeerStyle? beerStyle, float? minExtract, float? maxExtract, float? minAbv, float? maxAbv);
     }
 }

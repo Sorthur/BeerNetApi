@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BeerNet.Data;
 using BeerNet.Models;
+using BeerNet.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -119,6 +120,24 @@ namespace BeerNet.Managers
             beerRate.Description = beerRateDescription;
 
             _dbContext.SaveChanges();
+        }
+
+        public List<Beer> AdvancedBeerSearch(string beerName, string breweryName, Country? country, BeerStyle? beerStyle, float? minExtract, float? maxExtract, float? minAbv, float? maxAbv)
+        {
+            var beers = _dbContext.Beers.Where(b =>
+                (string.IsNullOrEmpty(beerName) || b.Name.Contains(beerName)) &&
+                (string.IsNullOrEmpty(breweryName) || b.Brewery.Name.Contains(breweryName)) &&
+                (country == null || b.Brewery.Country == country) &&
+                (beerStyle == null || b.Style == beerStyle) &&
+                (minExtract == null || b.Extract >= minExtract) &&
+                (maxExtract == null || b.Extract <= maxExtract) &&
+                (minAbv == null || b.Abv >= minAbv) &&
+                (maxAbv == null || b.Abv <= maxAbv))
+                .Include(b => b.Brewery)
+                .Include(b => b.BeerRates)
+                .ToList();
+
+            return beers;
         }
     }
 }
