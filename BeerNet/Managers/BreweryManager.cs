@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeerNet.Managers
 {
-    public class BreweryManager :IBreweryManager
+    public class BreweryManager : IBreweryManager
     {
         private readonly ApplicationDbContext _dbContext;
         public BreweryManager(ApplicationDbContext dbContext)
@@ -19,7 +19,7 @@ namespace BeerNet.Managers
         public List<Brewery> GetBreweries()
         {
             return _dbContext.Breweries
-                .Include(b=>b.Beers)
+                .Include(b => b.Beers)
                 .ToList();
         }
 
@@ -51,6 +51,14 @@ namespace BeerNet.Managers
             return _dbContext.Breweries
                 .Include(b => b.Beers)
                 .FirstOrDefault(b => b.Name == name);
+        }
+        public List<Brewery> AdvancedBrewerySearch(string breweryName, Country? country)
+        {
+            return _dbContext.Breweries.Where(b =>
+            (string.IsNullOrEmpty(breweryName) || b.Name.Contains(breweryName) &&
+            country == null || b.Country == country))
+            .Include(b => b.Beers)
+            .ToList();
         }
     }
 }

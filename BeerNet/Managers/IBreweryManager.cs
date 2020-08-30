@@ -12,5 +12,6 @@ namespace BeerNet.Managers
         List<Brewery> GetBreweries(Country country);
         Brewery GetBrewery(int id);
         Brewery GetBrewery(string name);
+        List<Brewery> AdvancedBrewerySearch(string breweryName, Country? country);
     }
 }
