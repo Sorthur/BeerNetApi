@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BeerNet.Data;
 using BeerNet.Managers;
 using BeerNet.Models;
+using BeerNet.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeerNet.Controllers
@@ -25,6 +26,17 @@ namespace BeerNet.Controllers
         public IActionResult AllBreweries()
         {
             var breweries = _breweryManager.GetBreweries();
+            return View("BreweryList", breweries);
+        }
+
+        public IActionResult BrewerySearch(string breweryName, Country? country)
+        {
+            var breweries = _breweryManager.AdvancedBrewerySearch(breweryName, country);
+
+            if (breweries.Count == 1)
+            {
+                return RedirectToAction("BreweryDetails", new { id = breweries[0].Id });
+            }
             return View("BreweryList", breweries);
         }
 
