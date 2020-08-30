@@ -1,7 +1,38 @@
 ﻿@model IList<Brewery>
+@using BeerNet.Models.Enums
 @{
     ViewData["Title"] = "Home Page";
 }
+
+<form asp-action="BrewerySearch">
+    <div class="row">
+        <div class="col-3">
+            <div class="form-row form-group">
+                <label for="breweryName">Brewery Name</label>
+                <input id="breweryName" name="breweryName" type="text" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-row form-group">
+                <label for="country">Country</label>
+                <select id="country" name="country" class="form-control">
+                    <option value="" disabled selected hidden>Choose Country...</option>
+                    @foreach (var country in (Country[])Enum.GetValues(typeof(Country)))
+                    {
+                        <option>@country</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="col-2">
+            <input type="submit" value="Search" class="btn btn-primary" style="position: absolute; bottom: 1em;" />
+        </div>
+    </div>
+</form>
+
+
 
 @foreach (var brewery in Model)
 {
