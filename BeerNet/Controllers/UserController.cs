@@ -13,7 +13,6 @@ namespace BeerNet.Controllers
     public class UserController : Controller
     {
         private readonly IBeerNetUserManager _beerNetUserManager;
-        public int d { get; set; }
         public UserController(IBeerNetUserManager beerNetUserManager)
         {
             _beerNetUserManager = beerNetUserManager;
