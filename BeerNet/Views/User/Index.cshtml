@@ -33,16 +33,16 @@
             <table class="table">
                 <tr class="table-borderless">
                     <th>
-                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Beer" asp-route-sortAscending="@ViewBag.sortAscending">Beer</a>
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Beer" asp-route-sortAscending="@ViewBag.sortAscending" class="dark-no-decorations">Beer</a>
                     </th>
                     <th>
-                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Style" asp-route-sortAscending="@ViewBag.sortAscending">Style</a>
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Style" asp-route-sortAscending="@ViewBag.sortAscending" class="dark-no-decorations">Style</a>
                     </th>
                     <th>
-                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Score" asp-route-sortAscending="@ViewBag.sortAscending">Score</a>
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Score" asp-route-sortAscending="@ViewBag.sortAscending" class="dark-no-decorations">Score</a>
                     </th>
                     <th>
-                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Average" asp-route-sortAscending="@ViewBag.sortAscending">Average</a>
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Average" asp-route-sortAscending="@ViewBag.sortAscending" class="dark-no-decorations">Average</a>
                     </th>
                 </tr>
                 @foreach (var beerRate in Model.BeerRates)
