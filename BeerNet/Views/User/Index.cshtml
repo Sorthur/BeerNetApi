@@ -30,16 +30,16 @@
             <table class="table">
                 <tr class="table-borderless">
                     <th>
-                        Beer
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Beer" asp-route-sortAscending="@ViewBag.sortAscending">Beer</a>
                     </th>
                     <th>
-                        Style
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Style" asp-route-sortAscending="@ViewBag.sortAscending">Style</a>
                     </th>
                     <th>
-                        Score
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Score" asp-route-sortAscending="@ViewBag.sortAscending">Score</a>
                     </th>
                     <th>
-                        Avg
+                        <a asp-action="Index" asp-route-login="@Model.Login" asp-route-orderBy="Average" asp-route-sortAscending="@ViewBag.sortAscending">Average</a>
                     </th>
                 </tr>
                 @foreach (var beerRate in Model.BeerRates)
