@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BeerNet.Data;
 using BeerNet.Models;
@@ -59,6 +60,13 @@ namespace BeerNet.Managers
                     .ThenInclude(b => b.Beer)
                         .ThenInclude(b => b.Brewery)
                 .ToList();
+        }
+
+        public void AddOrEditImage(string login, FileStream image)
+        {
+            var user = _dbContext.BeerNetUsers.FirstOrDefault(b => b.Login == login);
+            user.ImageToBytes(image);
+            _dbContext.SaveChanges();
         }
     }
 }

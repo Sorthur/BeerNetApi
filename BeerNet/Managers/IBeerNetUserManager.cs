@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BeerNet.Models;
 
 namespace BeerNet.Managers
@@ -11,5 +12,6 @@ namespace BeerNet.Managers
         BeerNetUser GetBeerNetUser(string id);
         BeerNetUser GetBeerNetUserByMail(string mail);
         BeerNetUser GetBeerNetUserByLogin(string login);
+        void AddOrEditImage(string login, FileStream image);
     }
 }
