@@ -73,6 +73,9 @@
     </div>
 
     <div class="col-3">
-        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Manage/Index">Manage</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Manage/Index">Manage</a>
+        }
     </div>
 </div>
