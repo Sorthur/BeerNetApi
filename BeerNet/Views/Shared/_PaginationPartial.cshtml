@@ -1,6 +1,6 @@
 ﻿<ul class="pagination">
-    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-        <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@(ViewBag.currentPage - 1)" class="page-link" aria-label="Previous">
+    <li class="page-item @(ViewBag.CurrentPageNumber == 1 ? "disabled" : "")">
+        <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@(ViewBag.currentPage - 1)" class="page-link" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
             <span class="sr-only">Previous</span>
         </a>
@@ -8,7 +8,7 @@
     @if (ViewBag.NumberOfPages == 1)
     {
         <li class="page-item active">
-            <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="1" class="page-link">
+            <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="1" class="page-link">
                 1
             </a>
         </li>
@@ -17,10 +17,10 @@
     {
 
 
-        @if (ViewBag.CurrentPage >= 5)
+        @if (ViewBag.CurrentPageNumber >= 5)
         {
             <li class="page-item">
-                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="1" class="page-link">
+                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="1" class="page-link">
                     1
                 </a>
             </li>
@@ -30,17 +30,17 @@
                 </a>
             </li>
             <li class="page-item">
-                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@(ViewBag.CurrentPage - 1)" class="page-link">
-                    @(ViewBag.CurrentPage - 1)
+                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@(ViewBag.CurrentPageNumber - 1)" class="page-link">
+                    @(ViewBag.CurrentPageNumber - 1)
                 </a>
             </li>
         }
         else
         {
-            for (int i = 1; i <= ViewBag.CurrentPage - 1; i++)
+            for (int i = 1; i <= ViewBag.CurrentPageNumber - 1; i++)
             {
                 <li class="page-item">
-                    <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@i" class="page-link">
+                    <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@i" class="page-link">
                         @i
                     </a>
                 </li>
@@ -48,16 +48,16 @@
         }
 
         <li class="page-item active">
-            <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@ViewBag.CurrentPage" class="page-link">
-                @ViewBag.CurrentPage
+            <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@ViewBag.CurrentPageNumber" class="page-link">
+                @ViewBag.CurrentPageNumber
             </a>
         </li>
 
-        @if (ViewBag.NumberOfPages > (ViewBag.CurrentPage + 3))
+        @if (ViewBag.NumberOfPages > (ViewBag.CurrentPageNumber + 3))
         {
             <li class="page-item">
-                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@(ViewBag.CurrentPage + 1)" class="page-link">
-                    @(ViewBag.CurrentPage + 1)
+                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@(ViewBag.CurrentPageNumber + 1)" class="page-link">
+                    @(ViewBag.CurrentPageNumber + 1)
                 </a>
             </li>
             <li class="page-item disabled">
@@ -66,17 +66,17 @@
                 </a>
             </li>
             <li class="page-item">
-                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@ViewBag.NumberOfPages" class="page-link">
+                <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@ViewBag.NumberOfPages" class="page-link">
                     @ViewBag.NumberOfPages
                 </a>
             </li>
         }
         else
         {
-            for (int i = ViewBag.CurrentPage + 1; i <= ViewBag.NumberOfPages; i++)
+            for (int i = ViewBag.CurrentPageNumber + 1; i <= ViewBag.NumberOfPages; i++)
             {
                 <li class="page-item">
-                    <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@i" class="page-link">
+                    <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@i" class="page-link">
                         @i
                     </a>
                 </li>
@@ -84,8 +84,8 @@
         }
     }
 
-    <li class="page-item @(ViewBag.CurrentPage == ViewBag.NumberOfPages ? "disabled" : "")">
-        <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-currentPage="@(ViewBag.CurrentPage + 1)" class="page-link" aria-label="Next">
+    <li class="page-item @(ViewBag.CurrentPageNumber == ViewBag.NumberOfPages ? "disabled" : "")">
+        <a asp-action="Search" asp-all-route-data="ViewBag.Parms" asp-route-CurrentPageNumber="@(ViewBag.CurrentPageNumber + 1)" class="page-link" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
             <span class="sr-only">Next</span>
         </a>
