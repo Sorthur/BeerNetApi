@@ -44,6 +44,17 @@ namespace BeerNet.Managers
                 .ToList();
         }
 
+        public List<Beer> GetBeers(int objectsToSkip, int objectsToTake)
+        {
+            return _dbContext.Beers
+                .Skip(objectsToSkip)
+                .Take(objectsToTake)
+                .Include(b => b.Brewery)
+                .Include(b => b.BeerRates)
+                    .ThenInclude(b => b.User)
+                .ToList();
+        }
+
         public List<Beer> GetBeers(string namePhrase)
         {
             return _dbContext.Beers.Where(b => b.Name.ToLower()
@@ -122,9 +133,12 @@ namespace BeerNet.Managers
             _dbContext.SaveChanges();
         }
 
-        public List<Beer> AdvancedBeerSearch(string beerName, string breweryName, Country? country, BeerStyle? beerStyle, float? minExtract, float? maxExtract, float? minAbv, float? maxAbv)
+        public List<Beer> AdvancedBeerSearch(string beerName, string breweryName, Country? country, BeerStyle? beerStyle, float? minExtract, float? maxExtract, float? minAbv, float? maxAbv, int objectsToSkip, int objectsToTake)
         {
-            var beers = _dbContext.Beers.Where(b =>
+            var beers = _dbContext.Beers
+                .Skip(objectsToSkip)
+                .Take(objectsToTake)
+                .Where(b =>
                 (string.IsNullOrEmpty(beerName) || b.Name.Contains(beerName)) &&
                 (string.IsNullOrEmpty(breweryName) || b.Brewery.Name.Contains(breweryName)) &&
                 (country == null || b.Brewery.Country == country) &&
@@ -138,6 +152,25 @@ namespace BeerNet.Managers
                 .ToList();
 
             return beers;
+        }
+
+        public int GetNumberOfBeers()
+        {
+            return _dbContext.Beers.Count();
+        }
+        public int GetNumberOfBeers(string beerName, string breweryName, Country? country, BeerStyle? beerStyle, float? minExtract, float? maxExtract, float? minAbv, float? maxAbv)
+        {
+            return _dbContext.Beers
+                .Where(b =>
+                (string.IsNullOrEmpty(beerName) || b.Name.Contains(beerName)) &&
+                (string.IsNullOrEmpty(breweryName) || b.Brewery.Name.Contains(breweryName)) &&
+                (country == null || b.Brewery.Country == country) &&
+                (beerStyle == null || b.Style == beerStyle) &&
+                (minExtract == null || b.Extract >= minExtract) &&
+                (maxExtract == null || b.Extract <= maxExtract) &&
+                (minAbv == null || b.Abv >= minAbv) &&
+                (maxAbv == null || b.Abv <= maxAbv))
+                .Count();
         }
     }
 }
