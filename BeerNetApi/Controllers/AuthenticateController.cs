@@ -95,7 +95,7 @@ namespace BeerNetApi.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return StatusCode(500, new Response { Status = "Error", Message = "User registration failed" });
+                return StatusCode(500, new Response { Status = "Error", Message = $"User registration failed; {result.Errors.First().Description}" });
             }
 
             return Ok(new Response { Status = "Success", Message = "User registered successfully" });
