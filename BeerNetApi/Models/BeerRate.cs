@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace BeerNetApi.Models
 {
     public class BeerRate

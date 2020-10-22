@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BeerNetApi.Models 
+namespace BeerNetApi.Models
 {
     public class BeerFilter
     {
+        public int? BeerId { get; set; }
         public string BeerName { get; set; }
         public string BreweryName { get; set; }
         public Country? Country { get; set; }
@@ -16,7 +17,7 @@ namespace BeerNetApi.Models
         public float? MaxExtract { get; set; }
         public float? MinAbv { get; set; }
         public float? MaxAbv { get; set; }
-        public int ObjectsToSkip { get; set; }
-        public int ObjectsToTake { get; set; }
+        public int BeersToSkip { get; set; }
+        public int BeersToTake { get; set; }
     }
 }
