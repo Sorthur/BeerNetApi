@@ -13,6 +13,7 @@ namespace BeerNetApi.Data
         public DbSet<BeerNetUser> BeerNetUsers { get; set; }
         public DbSet<Beer> Beers { get; set; }
         public DbSet<Brewery> Breweries { get; set; }
+        public DbSet<BeerRate> BeerRates { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
