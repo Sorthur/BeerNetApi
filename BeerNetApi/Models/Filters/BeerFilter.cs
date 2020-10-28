@@ -8,7 +8,6 @@ namespace BeerNetApi.Models
 {
     public class BeerFilter
     {
-        public int? BeerId { get; set; }
         public string BeerName { get; set; }
         public string BreweryName { get; set; }
         public Country? Country { get; set; }

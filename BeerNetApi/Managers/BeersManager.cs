@@ -42,12 +42,6 @@ namespace BeerNetApi.Managers
 
         public List<Beer> GetBeers(BeerFilter beerFilter)
         {
-            if (beerFilter.BeerId != null)
-            {
-                var beer = GetBeer(beerFilter.BeerId.Value);
-                return new List<Beer>() { beer };
-            }
-
             if (beerFilter.BeersToTake <= 0)
             {
                 return null;
