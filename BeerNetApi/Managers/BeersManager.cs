@@ -25,10 +25,10 @@ namespace BeerNetApi.Managers
                 (string.IsNullOrEmpty(beerFilter.BreweryName) || b.Brewery.Name.Contains(beerFilter.BreweryName)) &&
                 (beerFilter.Country == null || b.Brewery.Country == beerFilter.Country) &&
                 (beerFilter.BeerStyle == null || b.Style == beerFilter.BeerStyle) &&
-                (beerFilter.MinExtract == null || b.Extract >= beerFilter.MinExtract) &&
-                (beerFilter.MaxExtract == null || b.Extract <= beerFilter.MaxExtract) &&
-                (beerFilter.MinAbv == null || b.Abv >= beerFilter.MinAbv) &&
-                (beerFilter.MaxAbv == null || b.Abv <= beerFilter.MaxAbv))
+                (beerFilter.ExtractFrom == null || b.Extract >= beerFilter.ExtractFrom) &&
+                (beerFilter.ExtractTo == null || b.Extract <= beerFilter.ExtractTo) &&
+                (beerFilter.AbvFrom == null || b.Abv >= beerFilter.AbvFrom) &&
+                (beerFilter.AbvTo == null || b.Abv <= beerFilter.AbvTo))
                 .Count();
         }
 
@@ -42,23 +42,23 @@ namespace BeerNetApi.Managers
 
         public List<Beer> GetBeers(BeerFilter beerFilter)
         {
-            if (beerFilter.BeersToTake <= 0)
+            if (beerFilter.Limit <= 0)
             {
                 return null;
             }
 
             var beers = _dbContext.Beers
-                .Skip(beerFilter.BeersToSkip)
-                .Take(beerFilter.BeersToTake)
+                .Skip(beerFilter.Offset)
+                .Take(beerFilter.Limit)
                 .Where(b =>
                 (string.IsNullOrEmpty(beerFilter.BeerName) || b.Name.Contains(beerFilter.BeerName)) &&
                 (string.IsNullOrEmpty(beerFilter.BreweryName) || b.Brewery.Name.Contains(beerFilter.BreweryName)) &&
                 (beerFilter.Country == null || b.Brewery.Country == beerFilter.Country) &&
                 (beerFilter.BeerStyle == null || b.Style == beerFilter.BeerStyle) &&
-                (beerFilter.MinExtract == null || b.Extract >= beerFilter.MinExtract) &&
-                (beerFilter.MaxExtract == null || b.Extract <= beerFilter.MaxExtract) &&
-                (beerFilter.MinAbv == null || b.Abv >= beerFilter.MinAbv) &&
-                (beerFilter.MaxAbv == null || b.Abv <= beerFilter.MaxAbv))
+                (beerFilter.ExtractFrom == null || b.Extract >= beerFilter.ExtractFrom) &&
+                (beerFilter.ExtractTo == null || b.Extract <= beerFilter.ExtractTo) &&
+                (beerFilter.AbvFrom == null || b.Abv >= beerFilter.AbvFrom) &&
+                (beerFilter.AbvTo == null || b.Abv <= beerFilter.AbvTo))
                 .Include(b => b.Brewery)
                 .ToList();
 

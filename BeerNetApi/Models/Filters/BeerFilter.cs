@@ -12,11 +12,11 @@ namespace BeerNetApi.Models
         public string BreweryName { get; set; }
         public Country? Country { get; set; }
         public BeerStyle? BeerStyle { get; set; }
-        public float? MinExtract { get; set; }
-        public float? MaxExtract { get; set; }
-        public float? MinAbv { get; set; }
-        public float? MaxAbv { get; set; }
-        public int BeersToSkip { get; set; }
-        public int BeersToTake { get; set; }
+        public float? ExtractFrom { get; set; }
+        public float? ExtractTo { get; set; }
+        public float? AbvFrom { get; set; }
+        public float? AbvTo { get; set; }
+        public int Offset { get; set; }
+        public int Limit { get; set; }
     }
 }

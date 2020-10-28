@@ -23,14 +23,14 @@ namespace BeerNetApi.Managers
 
         public List<Brewery> GetBreweries(BreweryFilter breweryFilter)
         {
-            if (breweryFilter.BreweriesToTake <= 0)
+            if (breweryFilter.Limit <= 0)
             {
                 return null;
             }
 
             var breweries = _dbContext.Breweries
-                .Skip(breweryFilter.BreweriesToSkip)
-                .Take(breweryFilter.BreweriesToTake)
+                .Skip(breweryFilter.Offset)
+                .Take(breweryFilter.Limit)
                 .Where(b =>
                 (string.IsNullOrEmpty(breweryFilter.BreweryName) || b.Name.Contains(breweryFilter.BreweryName)) &&
                 (breweryFilter.Country == null || b.Country == breweryFilter.Country));

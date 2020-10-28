@@ -10,8 +10,8 @@ namespace BeerNetApi.Models
     {
         public string BreweryName { get; set; }
         public Country? Country { get; set; }
-        public int BreweriesToSkip { get; set; }
-        public int BreweriesToTake { get; set; }
+        public int Offset { get; set; }
+        public int Limit { get; set; }
         public bool IncludeBeers { get; set; }
     }
 }
