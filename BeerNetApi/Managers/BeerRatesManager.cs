@@ -16,7 +16,7 @@ namespace BeerNetApi.Managers
             _dbContext = dbContext;
         }
 
-        public void AddBeerRate(BeerRate beerRate, int beerId, string userId)
+        public void AddBeerRate(int beerId, string userId, string description, float rate)
         {
             var beer = _dbContext.Beers.FirstOrDefault(b => b.Id == beerId);
             var user = _dbContext.BeerNetUsers.FirstOrDefault(b => b.Id == userId);
@@ -27,6 +27,9 @@ namespace BeerNetApi.Managers
 
             if (beer != null && user != null)
             {
+                var beerRate = new BeerRate();
+                beerRate.Rate = rate;
+                beerRate.Description = description;
                 beerRate.Beer = beer;
                 beerRate.User = user;
                 float newAvgRating = beer.AverageRating * numberOfRates++;

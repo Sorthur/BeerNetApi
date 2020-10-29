@@ -65,7 +65,7 @@ namespace BeerNetApi.Controllers
         /// </returns>
         [HttpGet]
         [Route("count")]
-        public IActionResult GetNumberOfBeers([FromQuery]BeerFilter beerFilter)
+        public IActionResult GetNumberOfBeers([FromQuery] BeerFilter beerFilter)
         {
             return Ok(_beerManager.GetNumberOfBeers(beerFilter));
         }
@@ -92,9 +92,9 @@ namespace BeerNetApi.Controllers
         [HttpPost]
         [Authorize]
         [Route("rate/{beerId}")]
-        public IActionResult Post(int beerId, [FromBody] PostBeerRateModel model)
+        public IActionResult Post(int beerId, string userId, string description, float rate)
         {
-            _beerRatesManager.AddBeerRate(model.BeerRate, beerId, model.UserId);
+            _beerRatesManager.AddBeerRate(beerId, userId, description, rate);
             return NoContent();
         }
 
