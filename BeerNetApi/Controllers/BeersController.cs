@@ -50,7 +50,7 @@ namespace BeerNetApi.Controllers
         /// or HTTP 204 if beer with given id does not exist
         /// </returns>
         [HttpGet]
-        public IActionResult Get(BeerFilter beerFilter)
+        public IActionResult Get([FromQuery] BeerFilter beerFilter)
         {
             var beers = _beerManager.GetBeers(beerFilter);
             if (beers != null)
@@ -65,7 +65,7 @@ namespace BeerNetApi.Controllers
         /// </returns>
         [HttpGet]
         [Route("count")]
-        public IActionResult GetNumberOfBeers(BeerFilter beerFilter)
+        public IActionResult GetNumberOfBeers([FromQuery]BeerFilter beerFilter)
         {
             return Ok(_beerManager.GetNumberOfBeers(beerFilter));
         }

@@ -42,7 +42,7 @@ namespace BeerNetApi.Controllers
         /// or HTTP 204 if no beer was found
         /// </returns>
         [HttpGet]
-        public IActionResult Get(BreweryFilter breweryFilter)
+        public IActionResult Get([FromQuery] BreweryFilter breweryFilter)
         {
             var breweries = _breweriesManager.GetBreweries(breweryFilter);
             if (breweries != null)
