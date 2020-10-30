@@ -9,7 +9,7 @@ namespace BeerNetApi.Managers
     public interface IBeerRatesManager
     {
         void AddBeerRate(int beerId, string userId, string description, float rate);
-        void EditBeerRate(BeerRate editedBeerRate, int beerId, string userId);
+        void EditBeerRate(int beerRateId, string description, float rate);
         BeerRate GetBeerRate(int beerRateId);
         List<BeerRate> GetBeerRates(int beerId);
     }

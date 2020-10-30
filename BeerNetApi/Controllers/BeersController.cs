@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BeerNetApi.Controllers
@@ -17,11 +18,13 @@ namespace BeerNetApi.Controllers
     {
         private readonly IBeersManager _beerManager;
         private readonly IBeerRatesManager _beerRatesManager;
+        private readonly UserManager<BeerNetUser> _userManager;
 
-        public BeersController(IBeersManager beerManager, IBeerRatesManager beerRatesManager)
+        public BeersController(IBeersManager beerManager, IBeerRatesManager beerRatesManager, UserManager<BeerNetUser> userManager)
         {
             _beerManager = beerManager;
             _beerRatesManager = beerRatesManager;
+            _userManager = userManager;
         }
 
         public class PostBeerRateModel
@@ -92,8 +95,11 @@ namespace BeerNetApi.Controllers
         [HttpPost]
         [Authorize]
         [Route("rate/{beerId}")]
-        public IActionResult Post(int beerId, string userId, string description, float rate)
+        public IActionResult Post(int beerId, string description, float rate)
         {
+            var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
+            var userId = _userManager.FindByEmailAsync(email).Result.Id;
+
             _beerRatesManager.AddBeerRate(beerId, userId, description, rate);
             return NoContent();
         }
@@ -103,10 +109,10 @@ namespace BeerNetApi.Controllers
         /// </summary>
         [HttpPut]
         [Authorize]
-        [Route("rate/{beerId}")]
-        public IActionResult Put(int beerId, [FromBody] PostBeerRateModel model)
+        [Route("rate/{beerRateId}")]
+        public IActionResult Put(int beerRateId, string description, float rate)
         {
-            _beerRatesManager.EditBeerRate(model.BeerRate, beerId, model.UserId);
+            _beerRatesManager.EditBeerRate(beerRateId, description, rate);
             return NoContent();
         }
 
