@@ -27,12 +27,6 @@ namespace BeerNetApi.Controllers
             _userManager = userManager;
         }
 
-        public class PostBeerRateModel
-        {
-            public string UserId { get; set; }
-            public BeerRate BeerRate { get; set; }
-        };
-
         /// <returns>
         /// HTTP 200 with json with one beer if it exists. Brewery information and all beer rates included. <br></br>
         /// or HTTP 204 if beer with given id does not exist
