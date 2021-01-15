@@ -78,7 +78,7 @@ namespace BeerNetApi.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var usernameExist = await _userManager.FindByNameAsync(model.Username);
+            var usernameExist = await _userManager.FindByNameAsync(model.Login);
             var emailExist = await _userManager.FindByEmailAsync(model.Email);
             if (usernameExist != null || emailExist != null)
             {
@@ -89,8 +89,8 @@ namespace BeerNetApi.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username,
-                Login = model.Username
+                UserName = model.Login,
+                Login = model.Login
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -107,7 +107,7 @@ namespace BeerNetApi.Controllers
         [Route("registerAdmin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            var usernameExist = await _userManager.FindByNameAsync(model.Username);
+            var usernameExist = await _userManager.FindByNameAsync(model.Login);
             var emailExist = await _userManager.FindByEmailAsync(model.Email);
             if (usernameExist != null || emailExist != null)
             {
@@ -118,7 +118,7 @@ namespace BeerNetApi.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Login
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
