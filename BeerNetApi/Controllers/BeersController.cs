@@ -84,17 +84,17 @@ namespace BeerNetApi.Controllers
         }
 
         /// <summary>
-        /// Adds new beer rate
+        /// Adds new beer rate for currently logged user
         /// </summary>
         [HttpPost]
         [Authorize]
         [Route("rate/{beerId}")]
-        public IActionResult Post(int beerId, string description, float rate)
+        public IActionResult Post(int beerId, [FromBody] PostBeerRateModel postBeerRateModel)
         {
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
             var userId = _userManager.FindByEmailAsync(email).Result.Id;
 
-            _beerRatesManager.AddBeerRate(beerId, userId, description, rate);
+            _beerRatesManager.AddBeerRate(beerId, userId, postBeerRateModel.Description, postBeerRateModel.Rate.Value);
             return NoContent();
         }
 
@@ -104,9 +104,9 @@ namespace BeerNetApi.Controllers
         [HttpPut]
         [Authorize]
         [Route("rate/{beerRateId}")]
-        public IActionResult Put(int beerRateId, string description, float rate)
+        public IActionResult Put(int beerRateId, [FromBody] PostBeerRateModel postBeerRateModel)
         {
-            _beerRatesManager.EditBeerRate(beerRateId, description, rate);
+            _beerRatesManager.EditBeerRate(beerRateId, postBeerRateModel.Description, postBeerRateModel.Rate.Value);
             return NoContent();
         }
 
