@@ -21,6 +21,12 @@ namespace BeerNetApi.Managers
             return _dbContext.Breweries.Include(b => b.Beers).FirstOrDefault(b => b.Id == id);
         }
 
+        public void AddBrewery(Brewery brewery)
+        {
+            _dbContext.Breweries.Add(brewery);
+            _dbContext.SaveChanges();
+        }
+
         public List<Brewery> GetBreweries(BreweryFilter breweryFilter)
         {
             if (breweryFilter.Limit <= 0)
