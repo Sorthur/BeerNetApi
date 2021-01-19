@@ -5,7 +5,6 @@ using BeerNetApi.Data;
 using BeerNetApi.Models;
 using BeerNetApi.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BeerNetApi.Managers
 {
@@ -79,6 +78,12 @@ namespace BeerNetApi.Managers
                 //.Include(b => b.BeerRates)
                 //    .ThenInclude(b => b.User)
                 .ToList();
+        }
+
+        public void AddBeer(Beer beer)
+        {
+            _dbContext.Beers.Add(beer);
+            _dbContext.SaveChanges();
         }
 
         public void DodajListeLosowychPiw()
