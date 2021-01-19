@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using BeerNetApi.Managers;
 using BeerNetApi.Models;
+using BeerNetApi.Models.PostModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -34,6 +36,15 @@ namespace BeerNetApi.Controllers
             {
                 return Ok(brewery);
             }
+            return NoContent();
+        }
+
+        [HttpPost]        
+        [Authorize]
+        public IActionResult Post(BreweryPostModel model)
+        {
+            Brewery brewery = (Brewery)model;            
+            _breweriesManager.AddBrewery(brewery);
             return NoContent();
         }
 
