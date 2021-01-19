@@ -1,5 +1,6 @@
 ﻿using BeerNetApi.Managers;
 using BeerNetApi.Models;
+using BeerNetApi.Models.PostModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +19,14 @@ namespace BeerNetApi.Controllers
     {
         private readonly IBeersManager _beerManager;
         private readonly IBeerRatesManager _beerRatesManager;
+        private readonly IBreweriesManager _breweriesManager;
         private readonly UserManager<BeerNetUser> _userManager;
 
-        public BeersController(IBeersManager beerManager, IBeerRatesManager beerRatesManager, UserManager<BeerNetUser> userManager)
+        public BeersController(IBeersManager beerManager, IBeerRatesManager beerRatesManager, IBreweriesManager breweriesManager, UserManager<BeerNetUser> userManager)
         {
             _beerManager = beerManager;
             _beerRatesManager = beerRatesManager;
+            _breweriesManager = breweriesManager;
             _userManager = userManager;
         }
 
@@ -54,6 +57,20 @@ namespace BeerNetApi.Controllers
             {
                 return Ok(beers);
             }
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Post(BeerPostModel model)
+        {
+            Beer beer = (Beer)model;
+            beer.Brewery = _breweriesManager.GetBrewery(model.BreweryId.Value);
+            if (beer.Brewery == null)
+            {
+                return BadRequest($"Brewery with id={model.BreweryId} not found");
+            }
+            _beerManager.AddBeer(beer);
             return NoContent();
         }
 
