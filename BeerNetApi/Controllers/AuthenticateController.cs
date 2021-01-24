@@ -99,6 +99,9 @@ namespace BeerNetApi.Controllers
                 return StatusCode(500, new Response { Status = "Error", Message = $"User registration failed; {result.Errors.First().Description}" });
             }
 
+            CreateRoles();
+            await _userManager.AddToRoleAsync(user, UserRoles.User);
+
             return Ok(new Response { Status = "Success", Message = "User registered successfully" });
         }
 
@@ -127,21 +130,23 @@ namespace BeerNetApi.Controllers
                 return StatusCode(500, new Response { Status = "Error", Message = "User registration failed" });
             }
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            }
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-            {
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-            }
-
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
-            }
+            CreateRoles();
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin);
 
             return Ok(new Response { Status = "Success", Message = "Admin registered successfully" });
+        }
+
+        private async void CreateRoles()
+        {
+            Type userRoles = typeof(UserRoles);
+            foreach (var field in userRoles.GetFields())
+            {
+                var role = field.GetValue(null).ToString();
+                if (!await _roleManager.RoleExistsAsync(role))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
         }
     }
 }
