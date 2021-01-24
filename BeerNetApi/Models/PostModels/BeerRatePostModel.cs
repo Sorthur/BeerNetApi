@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BeerNetApi.Controllers
+namespace BeerNetApi.Models.PostModels
 {
-    public class PostBeerRateModel
+    public class BeerRatePostModel
     {
         [Required(ErrorMessage = "{0} is required")]
         public string Description { get; set; }
