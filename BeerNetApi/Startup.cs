@@ -32,7 +32,7 @@ namespace BeerNetApi
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             services.AddIdentity<BeerNetUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
