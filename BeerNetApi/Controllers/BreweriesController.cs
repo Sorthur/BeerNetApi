@@ -39,8 +39,8 @@ namespace BeerNetApi.Controllers
             return NoContent();
         }
 
-        [HttpPost]        
-        [Authorize]
+        [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post(BreweryPostModel model)
         {
             Brewery brewery = (Brewery)model;            

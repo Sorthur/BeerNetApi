@@ -61,7 +61,7 @@ namespace BeerNetApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post(BeerPostModel model)
         {
             Beer beer = (Beer)model;
