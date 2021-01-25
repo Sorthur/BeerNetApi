@@ -60,6 +60,10 @@ namespace BeerNetApi.Controllers
             return NoContent();
         }
 
+        /// <returns>
+        /// HTTP 200 if adding beer was succesful. <br></br>
+        /// or HTTP 400 if brewery with given id was not found
+        /// </returns>
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post(BeerPostModel model)

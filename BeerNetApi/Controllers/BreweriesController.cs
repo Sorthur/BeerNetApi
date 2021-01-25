@@ -39,6 +39,9 @@ namespace BeerNetApi.Controllers
             return NoContent();
         }
 
+        /// <returns>
+        /// HTTP 200 if succesful
+        /// </returns>
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post(BreweryPostModel model)
