@@ -72,6 +72,9 @@ namespace BeerNetApi
             services.AddSwaggerGen(x =>
             {
                 x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "BeerNet API", Version = "v1" });
+                //x.DocumentFilter<EnumDocumentFilter>();
+                x.SchemaFilter<EnumSchemaFilter>();
+                //x.CustomSchemaIds((type) => type.IsEnum ? type.Name : type.FullName);
             });
         }
 
@@ -93,7 +96,7 @@ namespace BeerNetApi
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint(swaggerOptions.UIEndpoint, swaggerOptions.Description);
-
+                //options.DefaultModelExpandDepth(-1);
             });
 
             app.UseHttpsRedirection();
