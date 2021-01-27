@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -75,6 +78,11 @@ namespace BeerNetApi
                 //x.DocumentFilter<EnumDocumentFilter>();
                 x.SchemaFilter<EnumSchemaFilter>();
                 //x.CustomSchemaIds((type) => type.IsEnum ? type.Name : type.FullName);
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                x.IncludeXmlComments(xmlPath);
             });
         }
 
