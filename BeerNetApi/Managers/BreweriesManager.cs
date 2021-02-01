@@ -46,7 +46,12 @@ namespace BeerNetApi.Managers
                 return breweries.Include(b => b.Beers).ToList();
             }
             return breweries.ToList();
+        }
 
+        public void UpdateBrewery(Brewery brewery)
+        {
+            _dbContext.Breweries.Update(brewery);
+            _dbContext.SaveChanges();
         }
     }
 }
