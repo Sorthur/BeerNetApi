@@ -75,9 +75,7 @@ namespace BeerNetApi
             services.AddSwaggerGen(x =>
             {
                 x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "BeerNet API", Version = "v1" });
-                //x.DocumentFilter<EnumDocumentFilter>();
-                x.SchemaFilter<EnumSchemaFilter>();
-                //x.CustomSchemaIds((type) => type.IsEnum ? type.Name : type.FullName);
+                //x.SchemaFilter<EnumSchemaFilter>();
 
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -104,7 +102,7 @@ namespace BeerNetApi
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint(swaggerOptions.UIEndpoint, swaggerOptions.Description);
-                //options.DefaultModelExpandDepth(-1);
+                options.DefaultModelsExpandDepth(-1);
             });
 
             app.UseHttpsRedirection();

@@ -99,7 +99,7 @@ namespace BeerNetApi.Controllers
                 return StatusCode(500, new Response { Status = "Error", Message = $"User registration failed; {result.Errors.First().Description}" });
             }
 
-            CreateRoles();
+            CreateMissingRoles();
             await _userManager.AddToRoleAsync(user, UserRoles.User);
 
             return Ok(new Response { Status = "Success", Message = "User registered successfully" });
@@ -130,13 +130,13 @@ namespace BeerNetApi.Controllers
                 return StatusCode(500, new Response { Status = "Error", Message = "User registration failed" });
             }
 
-            CreateRoles();
+            CreateMissingRoles();
             await _userManager.AddToRoleAsync(user, UserRoles.Admin);
 
             return Ok(new Response { Status = "Success", Message = "Admin registered successfully" });
         }
 
-        private async void CreateRoles()
+        private async void CreateMissingRoles()
         {
             Type userRoles = typeof(UserRoles);
             foreach (var field in userRoles.GetFields())

@@ -1,13 +1,16 @@
 ﻿using BeerNetApi.Managers;
 using BeerNetApi.Models;
 using BeerNetApi.Models.PostModels;
+using BeerNetApi.SwaggerExamples;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -30,11 +33,13 @@ namespace BeerNetApi.Controllers
             _userManager = userManager;
         }
 
-        /// <returns>
-        /// HTTP 200 with json with one beer if it exists. Brewery information and all beer rates included. <br></br>
-        /// or HTTP 204 if beer with given id does not exist
-        /// </returns>
+        /// <summary>
+        ///     Returns beer. Brewery information and all beer rates included
+        /// </summary>
+        /// <response code="200">Found matching beer</response> 
+        /// <response code="204">Beer was not found</response>
         [HttpGet("{beerId}")]
+        [ProducesResponseType(typeof(Beer), StatusCodes.Status200OK)]
         public IActionResult Get(int beerId)
         {
             var beer = _beerManager.GetBeer(beerId);
@@ -45,11 +50,13 @@ namespace BeerNetApi.Controllers
             return NoContent();
         }
 
-        /// <returns>
-        /// HTTP 200 with json with list of beers. Brewery information included, beer rates ignored. <br></br>
-        /// or HTTP 204 if beer with given id does not exist
-        /// </returns>
+        /// <summary>
+        ///     Returns list of matching beers. Brewery information included, beer rates ignored
+        /// </summary>
+        /// <response code="200">Found matching beers</response> 
+        /// <response code="204">No beers were found</response>
         [HttpGet]
+        [ProducesResponseType(typeof(List<BeersExample>), StatusCodes.Status200OK)]
         public IActionResult Get([FromQuery] BeerFilter beerFilter)
         {
             var beers = _beerManager.GetBeers(beerFilter);
@@ -60,10 +67,12 @@ namespace BeerNetApi.Controllers
             return NoContent();
         }
 
-        /// <returns>
-        /// HTTP 200 if adding beer was succesful. <br></br>
-        /// or HTTP 400 if brewery with given id was not found
-        /// </returns>
+
+        /// <summary>
+        ///     Looks for brewery in db for given id and then adds created beer to db
+        /// </summary>
+        /// <response code="200">Adding beer was succesful</response>
+        /// <response code="400">Wrong breweryId</response>
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post(BeerPostModel model)
@@ -78,22 +87,25 @@ namespace BeerNetApi.Controllers
             return NoContent();
         }
 
-        /// <returns>
-        /// Number of beers for given filter
-        /// </returns>
+        /// <summary>
+        /// Returns number of matching beers
+        /// </summary>
         [HttpGet]
         [Route("count")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         public IActionResult GetNumberOfBeers([FromQuery] BeerFilter beerFilter)
         {
             return Ok(_beerManager.GetNumberOfBeers(beerFilter));
         }
 
-        /// <returns>
-        /// HTTP 200 with json with specific beer rate. User and beer information ignored. <br></br>
-        /// or HTTP 204 if no beer rate was found
-        /// </returns>
+        /// <summary>
+        /// Returns specific beer rate. User and beer information ignored
+        /// </summary>
+        /// <response code="200">Found matching beer rate</response>
+        /// <response code="400">Wrong beerRateId</response>
         [HttpGet]
         [Route("rate/{beerRateId}")]
+        [ProducesResponseType(typeof(BeerRateExample), StatusCodes.Status200OK)]
         public IActionResult GetBeerRate(int beerRateId)
         {
             var beerRate = _beerRatesManager.GetBeerRate(beerRateId);
@@ -101,12 +113,13 @@ namespace BeerNetApi.Controllers
             {
                 return Ok(beerRate);
             }
-            return NoContent();
+            return BadRequest($"Beer rate with id={beerRateId} not found");
         }
 
         /// <summary>
         /// Adds new beer rate for currently logged user
         /// </summary>
+        /// <response code="200">Beer added successfully</response>
         [HttpPost]
         [Authorize]
         [Route("rate/{beerId}")]
@@ -122,6 +135,7 @@ namespace BeerNetApi.Controllers
         /// <summary>
         /// Updates description and/or rate in existing beer rate
         /// </summary>
+        /// <response code="200">Beer added successfully</response>
         [HttpPut]
         [Authorize]
         [Route("rate/{beerRateId}")]
@@ -136,7 +150,8 @@ namespace BeerNetApi.Controllers
         /// For development purposes only
         /// </summary>
         [HttpPost("gor")]
-        public IActionResult Post(Beer newBeer)
+        [Authorize(Roles = UserRoles.Admin)]
+        internal IActionResult Post(Beer newBeer)
         {
             _beerManager.DodajListeLosowychPiw();
             throw new NotImplementedException("Method yet to do");

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BeerNetApi.Managers;
 using BeerNetApi.Models;
 using BeerNetApi.Models.PostModels;
+using BeerNetApi.SwaggerExamples;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +24,14 @@ namespace BeerNetApi.Controllers
             _breweriesManager = breweriesManager;
         }
 
-        /// <returns>
-        /// HTTP 200 with json with one brewery if it exists with (list of beers included) <br></br>
-        /// or HTTP 204 if beer with given id does not exist
-        /// </returns>
+        /// <summary>
+        /// Returns brewery. List of its beers included
+        /// </summary>
+        /// <response code="200">Found matching brewery</response>
+        /// <response code="204">Wrong breweryId</response>
         [HttpGet]
         [Route("{breweryId}")]
+        [ProducesResponseType(typeof(BreweryExample), StatusCodes.Status200OK)]
         public IActionResult Get(int breweryId)
         {
             var brewery = _breweriesManager.GetBrewery(breweryId);
@@ -39,23 +42,26 @@ namespace BeerNetApi.Controllers
             return NoContent();
         }
 
-        /// <returns>
-        /// HTTP 200 if succesful
-        /// </returns>
+        /// <summary>
+        /// Adds brewery to db
+        /// </summary>
+        /// <response code="200">Added brewery successfully</response>
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post(BreweryPostModel model)
         {
-            Brewery brewery = (Brewery)model;            
+            Brewery brewery = (Brewery)model;
             _breweriesManager.AddBrewery(brewery);
             return NoContent();
         }
 
-        /// <returns>
-        /// HTTP 200 with json with specific number of breweries for given filters (beers ignored) <br></br>
-        /// or HTTP 204 if no beer was found
-        /// </returns>
+        /// <summary>
+        /// Returns list of matching breweries. Beers ignored
+        /// </summary>
+        /// <response code="200">Found matching breweries</response>
+        /// <response code="204">No breweries were found</response>
         [HttpGet]
+        [ProducesResponseType(typeof(List<BreweriesExample>), StatusCodes.Status200OK)]
         public IActionResult Get([FromQuery] BreweryFilter breweryFilter)
         {
             var breweries = _breweriesManager.GetBreweries(breweryFilter);
