@@ -71,19 +71,21 @@ namespace BeerNetApi.Controllers
         /// <summary>
         ///     Looks for brewery in db for given id and then adds created beer to db
         /// </summary>
-        /// <response code="200">Adding beer was succesful</response>
+        /// <response code="204">Adding beer was succesful</response>
         /// <response code="400">Wrong breweryId</response>
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post(BeerPostModel model)
         {
-            Beer beer = (Beer)model;
-            beer.Brewery = _breweriesManager.GetBrewery(model.BreweryId.Value);
-            if (beer.Brewery == null)
+            var beer = (Beer)model;
+            var brewery = _breweriesManager.GetBrewery(model.BreweryId.Value);
+            if (brewery == null)
             {
                 return BadRequest($"Brewery with id={model.BreweryId} not found");
             }
             _beerManager.AddBeer(beer);
+            brewery.Beers.Add(beer);
+            _breweriesManager.UpdateBrewery(brewery);
             return NoContent();
         }
 
