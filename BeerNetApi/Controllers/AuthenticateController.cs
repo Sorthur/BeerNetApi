@@ -1,5 +1,7 @@
 ﻿using BeerNetApi.Models;
+using BeerNetApi.SwaggerExamples;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -29,8 +31,14 @@ namespace BeerNetApi.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Returns bearer token
+        /// </summary>
+        /// <response code="200">Logged successfully</response>
+        /// <response code="401">No authorization</response>
         [HttpPost]
         [Route("login")]
+        [ProducesResponseType(typeof(AuthorizationExample), StatusCodes.Status200OK)]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = await _userManager.FindByNameAsync(model.Login);
@@ -74,8 +82,15 @@ namespace BeerNetApi.Controllers
             return Unauthorized();
         }
 
+        /// <summary>
+        /// Registers default user
+        /// </summary>
+        /// <response code="200">Registered successfully</response>
+        /// <response code="409">Registered failed - user already exists</response>
+        /// <response code="500">Registration failed</response>
         [HttpPost]
         [Route("register")]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var usernameExist = await _userManager.FindByNameAsync(model.Login);
@@ -105,9 +120,16 @@ namespace BeerNetApi.Controllers
             return Ok(new Response { Status = "Success", Message = "User registered successfully" });
         }
 
+        /// <summary>
+        /// Registers user with admin role
+        /// </summary>
+        /// <response code="200">Registered successfully</response>
+        /// <response code="409">Registered failed - user already exists</response>
+        /// <response code="401">No authorization</response>
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [Route("registerAdmin")]
+        [ProducesResponseType(typeof(Response), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
             var usernameExist = await _userManager.FindByNameAsync(model.Login);
