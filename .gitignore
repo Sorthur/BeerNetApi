@@ -1,5 +1,8 @@
 # My files
 appsettings.json
+appsettings.Development.json
+ToDo*
+*/Migrations*
 
 # globs
 Makefile.in
