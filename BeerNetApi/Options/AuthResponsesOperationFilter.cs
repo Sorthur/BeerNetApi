@@ -10,36 +10,33 @@ namespace BeerNetApi.Options
 {
     public class SecurityRequirementsOperationFilter : IOperationFilter
     {
-        private readonly SecurityRequirementsOperationFilter<AuthorizeAttribute> filter;
-
-        public SecurityRequirementsOperationFilter (bool includeUnauthorizedAndForbiddenResponses = true, string securitySchemaName = "oauth2")
-        {
-            Func<IEnumerable<AuthorizeAttribute>, IEnumerable<string>> policySelector = authAttributes =>
-                authAttributes
-                    .Where(a => !string.IsNullOrEmpty(a.Policy))
-                    .Select(a => a.Policy);
-
-            filter = new SecurityRequirementsOperationFilter<AuthorizeAttribute>(policySelector, includeUnauthorizedAndForbiddenResponses, securitySchemaName);
-        }
-
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            // Authorization parameter will be added only to Authorized methods
-            foreach (var customAttribute in context.MethodInfo.CustomAttributes)
+            var authAttributes = context.MethodInfo.DeclaringType.GetCustomAttributes(true)
+            .Union(context.MethodInfo.GetCustomAttributes(true))
+            .OfType<AuthorizeAttribute>();
+
+            if (authAttributes.Any())
             {
-                if (customAttribute.AttributeType == typeof(AuthorizeAttribute))
+                var securityRequirement = new OpenApiSecurityRequirement()
                 {
-                    operation.Parameters.Add(new OpenApiParameter
                     {
-                        Name = "Authorization",
-                        Description = "Example: 'Bearer 12345abcdef'",
-                        In = ParameterLocation.Header,
-                        Required = false
-                    });
-                    break;
-                }
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Name = "Authorization",
+                            In = ParameterLocation.Header,
+                            Scheme = "oauth2",
+                        },
+                        new List<string>()
+                    }
+                };
+                operation.Security = new List<OpenApiSecurityRequirement> { securityRequirement };
             }
-            filter.Apply(operation, context);
         }
     }
 }
