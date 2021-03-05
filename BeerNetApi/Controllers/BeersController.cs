@@ -119,9 +119,10 @@ namespace BeerNetApi.Controllers
         }
 
         /// <summary>
-        /// Adds new beer rate for currently logged user
+        /// Adds new beer rate for currently logged user. Only one rate per beer is allowed
         /// </summary>
         /// <response code="200">Beer added successfully</response>
+        /// <response code="405">User already rated this beer</response>
         [HttpPost]
         [Authorize]
         [Route("rate/{beerId}")]
@@ -129,6 +130,11 @@ namespace BeerNetApi.Controllers
         {
             var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email).Value;
             var userId = _userManager.FindByEmailAsync(email).Result.Id;
+
+            if (_beerRatesManager.DidUserRateBeer(beerId, userId))
+            {
+                return StatusCode(405, "User already rated this beer");
+            }
 
             _beerRatesManager.AddBeerRate(beerId, userId, beerRatePostModel.Description, beerRatePostModel.Rate.Value);
             return NoContent();

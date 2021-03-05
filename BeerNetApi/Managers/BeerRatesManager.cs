@@ -90,6 +90,15 @@ namespace BeerNetApi.Managers
             }
         }
 
+        public bool DidUserRateBeer(int beerId, string userId)
+        {
+            var beerRate = _dbContext.BeerRates.FirstOrDefault(b => b.User.Id == userId && b.Beer.Id == beerId);
+            if (beerRate != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public BeerRate GetBeerRate(int beerRateId)
         {
