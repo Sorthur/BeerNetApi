@@ -25,6 +25,17 @@ namespace BeerNetApi.Models
             BeerRates = new List<BeerRate>();
         }
 
+        public void UpdatePublicData(PublicUserData publicUserData)
+        {
+            Login = publicUserData.Login ?? Login;
+            Name = publicUserData.Name ?? Name;
+            Surname = publicUserData.Surname ?? Surname;
+            Country = publicUserData.Country ?? Country;
+            BeerRates = publicUserData.BeerRates ?? BeerRates;
+            Image = publicUserData.Image ?? Image;
+
+        }
+
         public void ImageToBytes(FileStream image)
         {
             using (var ms = new MemoryStream())
