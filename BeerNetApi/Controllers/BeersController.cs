@@ -136,7 +136,15 @@ namespace BeerNetApi.Controllers
                 return StatusCode(405, "User already rated this beer");
             }
 
-            _beerRatesManager.AddBeerRate(beerId, userId, beerRatePostModel.Description, beerRatePostModel.Rate.Value);
+            try
+            {
+                _beerRatesManager.AddBeerRate(beerId, userId, beerRatePostModel.Description, beerRatePostModel.Rate.Value);
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest($"Beer with id={beerId} not found");
+            }
+
             return NoContent();
         }
 
@@ -149,7 +157,15 @@ namespace BeerNetApi.Controllers
         [Route("rate/{beerRateId}")]
         public IActionResult Put(int beerRateId, [FromBody] BeerRatePostModel beerRatePostModel)
         {
-            _beerRatesManager.EditBeerRate(beerRateId, beerRatePostModel.Description, beerRatePostModel.Rate.Value);
+            try
+            {
+                _beerRatesManager.EditBeerRate(beerRateId, beerRatePostModel.Description, beerRatePostModel.Rate.Value);
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest($"Beer rate with id={beerRateId} not found");
+            }
+
             return NoContent();
         }
 
