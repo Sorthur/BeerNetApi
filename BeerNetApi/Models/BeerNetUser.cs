@@ -27,7 +27,6 @@ namespace BeerNetApi.Models
 
         public void UpdatePublicData(PublicUserData publicUserData)
         {
-            Login = publicUserData.Login ?? Login;
             Name = publicUserData.Name ?? Name;
             Surname = publicUserData.Surname ?? Surname;
             Country = publicUserData.Country ?? Country;
