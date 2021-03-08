@@ -5,7 +5,17 @@ namespace BeerNetApi.Managers
 {
     public interface IUserManager
     {
-        PublicUserData GetUserData(string userId);
-        void UpdateUserData(BeerNetUser user);
+        /// <summary>
+        /// Beer Rates included
+        /// </summary>
+        PublicUserData GetUserDataByLogin(string login);
+        /// <summary>
+        /// Beer Rates included
+        /// </summary>
+        PublicUserData GetUserDataByEmail(string email);
+        /// <summary>
+        /// Updates user's data whose ID is placed in given public PublicUserData
+        /// </summary>
+        void UpdateUserData(PublicUserData user);
     }
 }
