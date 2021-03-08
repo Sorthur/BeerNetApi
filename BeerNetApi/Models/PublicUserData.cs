@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using BeerNetApi.Models.Enums;
+using BeerNetApi.Models.PostModels;
 
 namespace BeerNetApi.Models
 {
     public class PublicUserData
     {
+        public string UserId { get; set; }
         public string Login { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -13,8 +15,11 @@ namespace BeerNetApi.Models
         public List<BeerRate> BeerRates { get; set; }
         public byte[] Image { get; set; }
 
+        public PublicUserData() { }
+
         public PublicUserData(BeerNetUser beerNetUser)
         {
+            UserId = beerNetUser.Id;
             Login = beerNetUser.Login;
             Name = beerNetUser.Name;
             Surname = beerNetUser.Surname;
