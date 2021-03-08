@@ -27,5 +27,14 @@ namespace BeerNetApi.Models
             BeerRates= beerNetUser.BeerRates;
             Image = beerNetUser.Image;
         }
+
+        public PublicUserData(PublicUserDataPostModel publicUserDataPostModel)
+        {
+            UserId = publicUserDataPostModel.UserId;
+            Name = publicUserDataPostModel.Name;
+            Surname = publicUserDataPostModel.Surname;
+            Country = publicUserDataPostModel.Country;
+            Image = publicUserDataPostModel.Image;
+        }
     }
 }
