@@ -73,7 +73,7 @@ namespace BeerNetApi
 
             services.AddScoped<IBeersManager, BeersManager>();
             services.AddScoped<IBreweriesManager, BreweriesManager>();
-            services.AddScoped<IBeerNetUsersManager, BeerNetUsersManager>();
+            services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IBeerRatesManager, BeerRatesManager>();
 
             services.AddSwaggerGen(x =>
