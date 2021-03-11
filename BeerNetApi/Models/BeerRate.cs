@@ -13,5 +13,13 @@ namespace BeerNetApi.Models
         public string Description { get; set; }
 
         public BeerRate() { }
+
+        public BeerRate(BeerNetUser user, Beer beer, float rate, string description)
+        {
+            User = user;
+            Beer = beer;
+            Rate = rate;
+            Description = description;
+        }
     }
 }
