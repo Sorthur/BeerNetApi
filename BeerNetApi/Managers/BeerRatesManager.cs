@@ -20,46 +20,51 @@ namespace BeerNetApi.Managers
         {
             var beer = _dbContext.Beers.FirstOrDefault(b => b.Id == beerId);
             var user = _dbContext.BeerNetUsers.FirstOrDefault(b => b.Id == userId);
+            if (beer == null || user == null)
+            {
+                return;
+            }
+
             int numberOfRates = _dbContext.Beers
                 .Include(b => b.BeerRates)
                 .FirstOrDefault(b => b.Id == beerId).BeerRates
                 .Count();
 
-            if (beer != null && user != null)
-            {
-                var beerRate = new BeerRate();
-                beerRate.Rate = rate;
-                beerRate.Description = description;
-                beerRate.Beer = beer;
-                beerRate.User = user;
-                float newAvgRating = beer.AverageRating * numberOfRates++;
-                newAvgRating += beerRate.Rate;
-                newAvgRating /= numberOfRates;
-                beer.AverageRating = newAvgRating;
-                _dbContext.BeerRates.Add(beerRate);
+            var beerRate = new BeerRate();
+            beerRate.Rate = rate;
+            beerRate.Description = description;
+            beerRate.Beer = beer;
+            beerRate.User = user;
+            float newAvgRating = beer.AverageRating * numberOfRates++;
+            newAvgRating += beerRate.Rate;
+            newAvgRating /= numberOfRates;
+            beer.AverageRating = newAvgRating;
+            _dbContext.BeerRates.Add(beerRate);
 
-                _dbContext.SaveChanges();
-            }
+            _dbContext.SaveChanges();
         }
 
         public void RemoveBeerRate(int beerRateId, int beerId)
         {
             var beer = _dbContext.Beers.FirstOrDefault(b => b.Id == beerId);
             var beerRate = _dbContext.BeerRates.FirstOrDefault(b => b.Id == beerRateId);
+            if (beer == null || beerRate == null)
+            {
+                return;
+            }
+
             int numberOfRates = _dbContext.Beers
                 .Include(b => b.BeerRates)
                 .FirstOrDefault(b => b.Id == beerId).BeerRates
                 .Count();
-            if (beer != null && beerRate != null)
-            {
-                float NewAvgRating = beer.AverageRating * numberOfRates--;
-                NewAvgRating -= beerRate.Rate;
-                NewAvgRating /= numberOfRates;
-                beer.AverageRating = NewAvgRating;
 
-                _dbContext.Remove(beerRate);
-                _dbContext.SaveChanges();
-            }
+            float NewAvgRating = beer.AverageRating * numberOfRates--;
+            NewAvgRating -= beerRate.Rate;
+            NewAvgRating /= numberOfRates;
+            beer.AverageRating = NewAvgRating;
+
+            _dbContext.Remove(beerRate);
+            _dbContext.SaveChanges();
         }
 
         public void EditBeerRate(int beerRateId, string description, float rate)
@@ -69,25 +74,27 @@ namespace BeerNetApi.Managers
                 .Include(b => b.User)
                 .FirstOrDefault(b => b.Id == beerRateId);
             var beer = _dbContext.Beers.FirstOrDefault(b => b.Id == originalBeerRate.Beer.Id);
+
+            if (originalBeerRate == null || beer == null)
+            {
+                return;
+            }
+
             int numberOfRates = _dbContext.Beers
                 .Include(b => b.BeerRates)
                 .FirstOrDefault(b => b.Id == beer.Id).BeerRates
                 .Count();
 
-            //var originalBeerRate = _dbContext.BeerRates.FirstOrDefault(b => b.Id == beer);
-            if (originalBeerRate != null && beer != null)
-            {
-                float NewAvgRating = beer.AverageRating * numberOfRates;
-                NewAvgRating -= originalBeerRate.Rate;
-                NewAvgRating += rate;
-                NewAvgRating /= numberOfRates;
-                beer.AverageRating = NewAvgRating;
+            float NewAvgRating = beer.AverageRating * numberOfRates;
+            NewAvgRating -= originalBeerRate.Rate;
+            NewAvgRating += rate;
+            NewAvgRating /= numberOfRates;
+            beer.AverageRating = NewAvgRating;
 
-                originalBeerRate.Rate = rate;
-                originalBeerRate.Description = description;
+            originalBeerRate.Rate = rate;
+            originalBeerRate.Description = description;
 
-                _dbContext.SaveChanges();
-            }
+            _dbContext.SaveChanges();
         }
 
         public bool DidUserRateBeer(int beerId, string userId)
