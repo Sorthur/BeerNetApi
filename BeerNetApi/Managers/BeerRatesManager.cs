@@ -30,11 +30,7 @@ namespace BeerNetApi.Managers
                 .FirstOrDefault(b => b.Id == beerId).BeerRates
                 .Count();
 
-            var beerRate = new BeerRate();
-            beerRate.Rate = rate;
-            beerRate.Description = description;
-            beerRate.Beer = beer;
-            beerRate.User = user;
+            var beerRate = new BeerRate(user, beer, rate, description);
             float newAvgRating = beer.AverageRating * numberOfRates++;
             newAvgRating += beerRate.Rate;
             newAvgRating /= numberOfRates;
